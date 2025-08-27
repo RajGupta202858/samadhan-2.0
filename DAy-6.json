@@ -1,0 +1,180 @@
+import { useState } from "react";
+import PropTypes from "prop-types";
+import "./App.css"; // external CSS file
+
+function ProfileCard({ name, role, location, bio, avatarUrl, skills, stats, links }) {
+  const [following, setFollowing] = useState(false);
+
+  return (
+    <div className="card">
+      <img className="avatar" src={avatarUrl} alt={name} />
+      <h2>{name}</h2>
+      <p className="role">{role}</p>
+      <p className="location">📍 {location}</p>
+      <p className="bio">{bio}</p>
+
+      <div className="skills">
+        {skills.map((s) => (
+          <span key={s} className="chip">{s}</span>
+        ))}
+      </div>
+
+      <div className="stats">
+        <div>
+          <strong>{stats.followers}</strong>
+          <p>Followers</p>
+        </div>
+        <div>
+          <strong>{stats.projects}</strong>
+          <p>Projects</p>
+        </div>
+      </div>
+
+      <button className="follow-btn" onClick={() => setFollowing(!following)}>
+        {following ? "Following" : "Follow"}
+      </button>
+
+      <div className="links">
+        {links.website && <a href={links.website}>🌐 Website</a>}
+        {links.github && <a href={links.github}>💻 GitHub</a>}
+        {links.x && <a href={links.x}>X</a>}
+      </div>
+    </div>
+  );
+}
+
+ProfileCard.propTypes = {
+  name: PropTypes.string.isRequired,
+  role: PropTypes.string,
+  location: PropTypes.string,
+  bio: PropTypes.string,
+  avatarUrl: PropTypes.string,
+  skills: PropTypes.arrayOf(PropTypes.string),
+  stats: PropTypes.shape({ followers: PropTypes.number, projects: PropTypes.number }),
+  links: PropTypes.object,
+};
+
+ProfileCard.defaultProps = {
+  role: "",
+  location: "",
+  bio: "",
+  avatarUrl: "https://via.placeholder.com/100",
+  skills: [],
+  stats: { followers: 0, projects: 0 },
+  links: {},
+};
+
+export default function App() {
+  return (
+    <div className="container">
+      <ProfileCard
+        name="Raju Kumar"
+        role="Computer Science Engineering Student"
+        location="Bhopal, India"
+        bio="Learning C++ and React, building projects."
+        skills={["C++", "React", "CAD"]}
+        stats={{ followers: 1200, projects: 10 }}
+        links={{ website: "https://example.com", github: "https://github.com/example" }}
+      />
+    </div>
+  );
+}
+
+/* ---------------- App.css ----------------
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background: #f4f4f4;
+  min-height: 100vh;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.role {
+  color: gray;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.location {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0;
+}
+
+.bio {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.chip {
+  background: #eee;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0;
+  font-size: 14px;
+}
+
+.follow-btn {
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.follow-btn:hover {
+  background: #0056b3;
+}
+
+.links {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+------------------------------------------ */
